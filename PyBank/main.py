@@ -1,65 +1,108 @@
-#import modules and read csv files
+# import modules and read csv files
 import os
-csvpath = os.path.join('Resources', 'budget_data.csv')
-
 import csv
-with open (csvpath, newline= '') as csvfile:
+import statistics
 
-#specify delimiter 
-    csvreader = csv.reader(csvfile, delimiter = ',') 
-    print(csvreader)
+csvpath = os.path.join('Resources', 'budget_data.csv')
+file = open(csvpath, newline = '')
+reader = csv.reader(file)
 
-#read each row 
-    for row in csvreader:
-        print(row)
-
-
-#import module for datetime to calculate months 
-
-from datetime import datetime
-
-# Assume the dataset includes dates from January 1, 2010 to December 31, 2020
-start_date = datetime(2009, 12, 31)
-end_date = datetime(2017, 2, 28)
-
-# Calculate the difference in months between the start and end dates
-difference = end_date.month - start_date.month
-years_difference = end_date.year - start_date.year
-total_months = difference + (years_difference * 12)
-
-print(f"Total number of months: {total_months}")
+# create output filepath 
+report_to_output = os.path.join('Analysis', 'BudgetReport.txt')
 
 
-#calculate the net total amount of "Profit/Losses" over the entire period
+# create variables
+total_months = 0
+net_total = 0
 
-#for row in csvreader: 
-#    total_profit = 0
- #   total_profit += sum(int(cell) for cell in row)
+monthly_changes = []
+changes = []
+avg_changes = 0
 
-#print(f"Total Profit: {total_profit}")
+greatest_increase = 0
+greatest_month = ''
+greatest_decrease = 0
+worst_month = ''
 
-#def print_profitlosses(profit_data):
-   # dates = str(profit_data[0])
-    #values = int(profit_data[1])
 
-    #total_dates = 
-#
-#-----------------------------------------------
-  # Initialize a variable to store the total
-total = 0
-  
-  # Iterate over the rows of the file
-with open (csvpath, newline= '') as csvfile:
-    for row in csvfile:
+# read the csv file 
+with open(csvpath) as bank_data:
+    reader = csv.reader(bank_data)
 
-        date = str
-        profit = int
+    # establish first row as header row 
+    header = next(reader) 
 
-    # Get the value from the second cell in the row (assuming the first cell is the month/year)
-       row = [date, profit]
-        row.split(date,profit)
-    
-        total = total + profit
+    # extract first row
+    first_row = next(reader)
 
-print(f"Total: {total}")
-#-----------------------------------------------
+    # increment total months by one
+    total_months += 1
+
+    # increment net total
+    net_total = int(first_row[1])
+
+    # increment changes 
+    # monthly_changes = int(first_row[1])
+
+    #increment avg changes
+    avg_changes = int(first_row[1])
+
+    # iterate through rest of csv file
+    for row in reader:
+
+        #capture total months 
+        total_months += 1
+
+        #capture total net profit losses
+        net_total += int(row[1])
+
+      
+        # # calculate avg changes 
+        # monthly_changes = int(row[1])- previous_profit
+        # previous_profit = int(row[1]) - 1
+        # monthly_changes_list = monthly_changes_list + [monthly_changes]
+        # month_of_profit = [month_of_profit] + [row[0]]
+        # avg_changes = sum(monthly_changes_list) / len(monthly_changes_list)
+
+        # #calculate monthly changes
+        # for i in range(len(net_total)-1):
+        #      monthly_changes_list.append(net_total[i+1]-net_total[i])
+        #      avg_changes = (sum(monthly_changes_list)/len(monthly_changes_list))"
+        
+        #create if statements to calculate greatest/worst months of profit 
+        if int(row[1]) > greatest_increase:
+            greatest_month = (row[0])
+            greatest_increase = int(row[1])
+
+        elif int(row[1]) < greatest_decrease:
+            worst_month = (row[0])
+            greatest_decrease = int(row[1])
+        changes.append(int(row[1]))
+
+        #calculate monthly changes 
+        for i in range(len(changes)-1):
+            total_changes = (changes[i+1]- changes[i])
+            monthly_changes.append(total_changes)
+
+            avg_changes = statistics.mean(monthly_changes)
+
+
+
+
+
+# create report
+report = (
+    f"Financial Analysis\n"
+    f"----------------------------\n"
+    f"Total Months: {total_months}\n"
+    f"Total: ${net_total}\n"
+    f"Avg Change:" + str(round(avg_changes, 2))
+)
+
+# print to terminal
+print(report)
+
+
+# output results to analysis folder
+with open(report_to_output, 'w') as text_file:
+    text_file.write(report)

@@ -1,9 +1,8 @@
 # python-challenge
 Assignment 3 
 
-## Background
-* Step 1
-* Step 2
+## PyBank 
+* Imported and analyzed Budget Data to calculate the profit/losses over a 7 year period.
 
-## Analysis 
-1. Pybank Analysis 
+## PyPoll 
+* Imported and analyzed Votes to determine winning candidates for a local election.  

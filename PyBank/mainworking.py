@@ -37,10 +37,9 @@ print(f"Total number of months: {total_months}")
 #calculate sum of profit/losses
 
 for row in reader:
-    def total(): 
-        return sum(profitlosses)
+    total = sum(profitlosses)
   
-total()
+print(total)
 
 
 #calculate changes in "Profit/Losses" over the entire period, and then the average of those changes
