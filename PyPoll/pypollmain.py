@@ -71,7 +71,6 @@ report = (
 #print report to terminal
 print(report)
 
-
 #output results to analysis folder
 with open(report_to_output, 'w') as text_file:
-    text_file.write(report)
+    text_file.write(report) 
